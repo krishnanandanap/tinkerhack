@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TravelPreferencesForm = ({ onSubmit }) => {
+const TravelPreferencesForm = ({onSubmit}) => {
   const [formData, setFormData] = useState({
     placeType: '',
     minDistance: 0,
@@ -12,14 +12,13 @@ const TravelPreferencesForm = ({ onSubmit }) => {
   const [loading, setLoading] = useState(false);
 
   const placeTypes = [
-    'restaurant',
-    'park',
-    'museum',
-    'shopping_mall',
-    'tourist_attraction',
-    'beach',
-    'mountain',
-    'other'
+    'Restaurant',
+    'Park',
+    'Museum',
+    'Shopping Mall',
+    'Beach',
+    'Mountain',
+    'Other'
   ];
 
   const getLocation = () => {
@@ -51,15 +50,16 @@ const TravelPreferencesForm = ({ onSubmit }) => {
     e.preventDefault();
     const submissionData = {
       preferences: {
-        placeType: formData.placeType === 'other' ? formData.customPlaceType : formData.placeType,
+        placeType: formData.placeType === 'Other' ? formData.customPlaceType : formData.placeType,
         distanceRange: {
-          min: formData.minDistance * 1000, // Convert to meters for Google Maps API
-          max: formData.maxDistance * 1000
+          min: formData.minDistance,
+          max: formData.maxDistance
         }
       },
       userLocation: location
     };
-    onSubmit(submissionData);
+    console.log('Form Submission Data:', submissionData);
+    onSubmit(submissionData)
   };
 
   const handleInputChange = (e) => {
@@ -91,14 +91,12 @@ const TravelPreferencesForm = ({ onSubmit }) => {
             >
               <option value="">Select a place type</option>
               {placeTypes.map(type => (
-                <option key={type} value={type}>
-                  {type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ')}
-                </option>
+                <option key={type} value={type}>{type}</option>
               ))}
             </select>
           </div>
 
-          {formData.placeType === 'other' && (
+          {formData.placeType === 'Other' && (
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
                 Specify Place Type
